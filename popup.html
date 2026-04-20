@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { width: 250px; padding: 15px; background-color: #000; color: #fff; font-family: 'Courier New', monospace; margin: 0; border: 1px solid #333; }
+        .header { font-size: 14px; font-weight: bold; text-align: center; border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 15px; letter-spacing: 2px; color: #0de40d }
+        .info { font-size: 12px; margin-bottom: 8px; }
+        #status { font-weight: bold; text-transform: uppercase; }
+        #reason { font-size: 11px; color: #ccc; margin-top: 10px; font-style: italic; line-height: 1.4; border-left: 2px solid #333; padding-left: 8px; }
+        .footer { margin-top: 15px; font-size: 10px; color: #444; text-align: center; }
+        .switch-container { margin-top: 20px; display: flex; justify-content: center; align-items: center; padding: 10px 0; border-top: 1px solid #333; }
+        .switch { position: relative; display: inline-block; width: 60px; height: 34px; }
+        .switch input{ opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #333; transition: .4s; border-radius: 34px; }
+        .slider::before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        .info-tooltip .tooltiptext { visibility: hidden; width: 150px; background-color: #222; color: #fff; text-align: center; border: 1px solid #333; border-radius: 6px; padding: 8px; position: absolute; z-index: 10; bottom: 150%; left: 0; opacity: 0; transition: opacity 0.3s; font-size: 10px; line-height: 1.3; pointer-events: none; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        input:checked + .slider { background-color: #0de40d; }
+        input:focus + .slider { box-shadow: 0 0 5px #0de40d; }
+        input:checked + .slider:before { transform: translateX(18px); }
+        .info-tooltip:hover .tooltiptext { visibility: visible; opacity: 1; }
+        .info-tooltip:hover { color: #0de40d; }
+        #whitelist-items::-webkit-scrollbar { width: 4px;}
+        #whitelist-items::-webkit-scrollbar-track {background: #000;}
+        #whitelist-items::-webkit-scrollbar-thumb {background-color: #333; border-radius: 10px;}
+        #whitelist-items::-webkit-scrollbar-thumb:hover {background: #0de40d;}
+        #refreshBtn:hover { color: #0de40d; }
+        .footer { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 20px 0; width: 100%; border-top: solid #222; }
+        #footer-text { font-family: 'Courier New', Courier, monospace; font-size: 11px; color: #555; letter-spacing: 1px; text-transform: uppercase; }   
+    </style>
+</head>
+
+<body>
+    <div class="header" style="display: flex; justify-content: space-between; align-items: center; padding: 0 5px 10px 5px;">
+        <span>Jester AI</span>
+        <div id="options-trigger" style="cursor: pointer; font-size: 18px; color: #888; line-height: 1;">⋮</div>
+    </div>
+
+    <div id="settings-panel" style="display:none; padding: 10px; border: 1px solid #333; margin-bottom: 15px; background-color: #0a0a0a; border-radius: 4px;">
+        <div id="api-label" style="font-size: 11px; color:#0de40d; margin-bottom: 4px; letter-spacing: 1px;">API SETTINGS:</div>
+
+        <div style="font-size: 11px; color: #888; margin-bottom: 8px;">
+            Don't have a key? <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: #0de40d; text-decoration: none; border-bottom: 1px solid #0de40d;">Get it for free</a>
+        </div>
+
+        <input type="password" id="api-key-input" placeholder="Enter Gemini API Key..."
+            style="width: 100%;background: #000; border: 1px solid #333; color: #fff; padding: 6px; font-size: 10px; font-family: inherit; box-sizing: border-box;margin-bottom: 8px; outline: none;">
+        
+        <button id="save-key-btn" style="background: #111; color: #0de40d; border: 1px solid #0de40d; padding: 5px; cursor: pointer; font-size: 9px; width: 100%; font-family: inherit; font-weight: bold; transition: 0.3s;">SAVE CONFIG</button>
+                <div id="whitelist-manager" style="margin-top: 15px; border-top: 1px solid #333; padding-top: 10px;">
+            <p style="font-size: 11px; color: #888; margin-bottom: 5px;">WHITELISTED DOMAINS:</p>
+            <div id="whitelist-items" style="max-height: 100px; overflow-y: auto; font-size: 12px; color: #eee;">
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="info">
+        <span id="status-label">STATUS:</span> <span id="status" style="color: #0de40d;">ANALYZING...</span>
+    </div>
+    <div id="reason">
+        Waiting for Gemini analysis...
+    </div>
+    
+    <button id="whitelist-btn" style="margin-top: 10px; background: #0de40d; color:#000; border:none; padding:5px; cursor:pointer; font-family: inherit; font-size: 10px;">TRUST THIS SITE?</button>
+
+    <div class="switch-container" style="margin-top: 15px; display: flex; align-items: center; justify-content: flex-start; padding-top: 10px; border-top: 1px solid #333;">
+        <label class="switch" style="width: 40px; height: 22px;">
+            <input type="checkbox" id="powerSwitch" checked>
+            <span class="slider" style="border-radius: 22px;"></span>
+        </label>
+
+        <div class="info-tooltip" style="margin-left: 12px; cursor: help; color: #888; font-size: 14px; position: relative;">
+            ⓘ
+            <span id="tooltip-text" class="tooltiptext">When the switch is ON, Jester AI will begin scanning. When OFF: Standby</span>
+        </div>
+        <button id="refreshBtn" title="Reload current page" style="
+            margin-left: auto;
+            font-size: 14px;
+            background: none;
+            color: #888;
+            border: none;
+            border-radius: 4px;
+            padding: 2px 6px;
+            cursor: pointer;
+            transition: 0.2s;
+        ">⟳</button>
+    </div>
+    </div>
+    
+
+    <div class="footer">
+        <span id="footer-text">V.1.0 | SECURED BY Jester</span>    
+        <div style="font-size: 11px;">
+            <a href="mailto:jesteraisupport@gmail.com" 
+               style="color: #0de40d; text-decoration: none; border-bottom: 1px solid #0de40d;">
+               jesteriaisupport@gmail.com
+            </a>
+        </div>
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html>

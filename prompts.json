@@ -1,0 +1,25 @@
+{
+  "prompts": {
+    "quick_summary": {
+      "instruction": "Summarize the following content in 2 concise sentences.",
+      "output_format": "JSON",
+      "language": "en",
+      "example_output": { "summary": "..." },
+      "use_case": "fast overview"
+    },
+    "page_verdict": {
+      "instruction": "Analyze the page content for safety and intent. Provide a 'safety_score' (1-10) and a 'category'.",
+      "output_format": "JSON",
+      "language": "en",
+      "example_output": { "safety_score": 7, "category": "phishing" },
+      "use_case": "security analysis"
+    },
+    "deep_analysis": {
+      "instruction": "Perform a detailed analysis. Identify core entities, potential biases, and provide a 5 point bulleted summary.",
+      "output_format": "JSON",
+      "language": "en",
+      "example_output": { "summary": ["Point 1", "Point 2", "Point 3", "Point 4", "Point 5"] },
+      "use_case": "in-depth content review"
+    }
+  }
+}
