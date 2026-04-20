@@ -1,8 +1,5 @@
 # 🃏 Jester AI — AI-Powered Phishing Detection
 
-<p align="center">
-  <img src="assets/banner.png" alt="Jester AI Banner" width="100%" />
-</p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Manifest-V3-0de40d?style=flat-square&labelColor=111" />
@@ -87,10 +84,6 @@ jester-ai/
 ├── options.js          # Standalone options page
 ├── prompts.json        # Structured AI prompt templates
 ├── icon128.png         # Extension icon
-└── assets/
-    └── banner.png
-```
-
 ---
 
 ## ⚙️ Configuration
@@ -120,31 +113,12 @@ Gemini responds **only in JSON**:
 
 ---
 
-## 🌍 Supported Languages
-
-The block page UI is automatically localized based on the user's browser language:
-
-| Language | Code |
-|----------|------|
-| English | `en` |
-| Azerbaijani | `az` |
-| Russian | `ru` |
-| Turkish | `tr` |
-
----
-
 ## 🛠️ Built With
 
 - [Chrome Extensions Manifest V3](https://developer.chrome.com/docs/extensions/mv3/)
 - [Google Gemini 2.5 Flash](https://ai.google.dev/)
 - [OpenPhish Public Feed](https://openphish.com/)
 - Vanilla JS — no build tools, no dependencies
-
----
-
-## 📸 Screenshots
-
-> Block page, popup UI, and quarantine mode screenshots coming soon.
 
 ---
 
