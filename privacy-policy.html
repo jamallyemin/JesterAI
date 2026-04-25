@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jester AI — Privacy Policy</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap');
+
+  :root {
+    --green: #0de40d;
+    --red: #ff3e3e;
+    --bg: #000;
+    --surface: #080808;
+    --border: #1a1a1a;
+    --muted: #444;
+    --text: #ccc;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 14px;
+    line-height: 1.8;
+    min-height: 100vh;
+  }
+
+  /* scanline effect */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 3px,
+      rgba(0,0,0,0.08) 3px,
+      rgba(0,0,0,0.08) 4px
+    );
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 28px 40px 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: sticky;
+    top: 0;
+    background: rgba(0,0,0,0.95);
+    backdrop-filter: blur(4px);
+    z-index: 10;
+  }
+
+  .logo-text {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--green);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+
+  .logo-text span {
+    color: #7b2fff;
+  }
+
+  .header-tag {
+    margin-left: auto;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+  }
+
+  main {
+    max-width: 780px;
+    margin: 60px auto;
+    padding: 0 30px 80px;
+  }
+
+  .doc-header {
+    margin-bottom: 50px;
+    border-left: 3px solid var(--green);
+    padding-left: 20px;
+  }
+
+  .doc-header h1 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .doc-header .meta {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+
+  .doc-header .meta span {
+    color: var(--green);
+  }
+
+  section {
+    margin-bottom: 40px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    padding: 28px 30px;
+    position: relative;
+  }
+
+  section::before {
+    content: attr(data-index);
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    background: var(--green);
+    color: #000;
+    font-size: 9px;
+    font-weight: bold;
+    padding: 2px 8px;
+    letter-spacing: 2px;
+  }
+
+  h2 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--green);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  p { margin-bottom: 12px; color: var(--text); }
+
+  ul {
+    list-style: none;
+    margin: 10px 0 14px;
+    padding: 0;
+  }
+
+  ul li {
+    padding: 5px 0 5px 18px;
+    position: relative;
+    color: var(--text);
+  }
+
+  ul li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--green);
+    font-size: 16px;
+    line-height: 1.4;
+  }
+
+  .highlight {
+    color: #fff;
+    font-weight: bold;
+  }
+
+  .danger { color: var(--red); }
+  .safe { color: var(--green); }
+
+  .callout {
+    border: 1px solid var(--green);
+    padding: 14px 18px;
+    margin: 16px 0;
+    background: rgba(13, 228, 13, 0.04);
+    font-size: 13px;
+  }
+
+  .callout.warn {
+    border-color: #555;
+    background: rgba(255,255,255,0.02);
+  }
+
+  a {
+    color: var(--green);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(13,228,13,0.3);
+  }
+
+  a:hover { border-bottom-color: var(--green); }
+
+  footer {
+    border-top: 1px solid var(--border);
+    text-align: center;
+    padding: 30px;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+
+  footer a { color: var(--green); font-size: 11px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-text">JESTER <span>AI</span></div>
+  <div class="header-tag">PRIVACY POLICY // v1.1</div>
+</header>
+
+<main>
+  <div class="doc-header">
+    <h1>Privacy Policy</h1>
+    <div class="meta">
+      EFFECTIVE DATE: <span>April 25, 2026</span> &nbsp;|&nbsp;
+      EXTENSION: <span>Jester AI</span> &nbsp;|&nbsp;
+      VERSION: <span>1.1</span>
+    </div>
+  </div>
+
+  <section data-index="01">
+    <h2>Overview</h2>
+    <p>Jester AI is a Chrome browser extension that uses AI to detect phishing and brand-impersonation threats in real time. This policy explains what data the extension accesses, how it is used, and what is never collected.</p>
+    <div class="callout">
+      <span class="safe">✓</span> Jester AI does <span class="highlight">not</span> collect, store, or transmit any personal data to its own servers. The developer has no backend and receives no user data.
+    </div>
+  </section>
+
+  <section data-index="02">
+    <h2>Data the Extension Accesses</h2>
+    <p>To perform phishing analysis, Jester AI accesses the following on each page you visit:</p>
+    <ul>
+      <li><span class="highlight">Page URL and hostname</span> — used to identify suspicious domain patterns.</li>
+      <li><span class="highlight">Page text content</span> — scanned locally to detect brand name mentions (e.g. "Google", "PayPal").</li>
+      <li><span class="highlight">Form structure</span> — checks whether a page contains login or password input fields, which increases phishing risk.</li>
+      <li><span class="highlight">Page headings and button labels</span> — sent to the Gemini AI API as metadata for threat analysis.</li>
+      <li><span class="highlight">Page screenshot</span> — captured and sent to the Gemini API for visual brand-impersonation analysis (deep scan mode only).</li>
+    </ul>
+    <div class="callout warn">
+      None of this data is sent to Jester AI's developer. It is sent directly from your browser to the Google Gemini API using <span class="highlight">your own API key</span>.
+    </div>
+  </section>
+
+  <section data-index="03">
+    <h2>Your Gemini API Key</h2>
+    <p>To use Jester AI, you must provide a Google Gemini API key. This key is:</p>
+    <ul>
+      <li>Stored locally in your browser using <span class="highlight">chrome.storage.local</span> — it never leaves your device except to make requests to Google's API.</li>
+      <li>Encoded with Base64 in storage. Note: this is obfuscation, not encryption. Your key remains on your device only.</li>
+      <li><span class="danger">Never</span> transmitted to the extension developer or any third party other than Google.</li>
+    </ul>
+    <p>You can remove your API key at any time via the extension settings panel (⋮ icon).</p>
+  </section>
+
+  <section data-index="04">
+    <h2>Third-Party Services</h2>
+    <p>Jester AI communicates with two external services:</p>
+    <ul>
+      <li>
+        <span class="highlight">Google Gemini API</span> (<code>generativelanguage.googleapis.com</code>) — page metadata and screenshots are sent here for AI threat analysis. Google's privacy policy applies: <a href="https://policies.google.com/privacy" target="_blank">policies.google.com/privacy</a>
+      </li>
+      <li>
+        <span class="highlight">OpenPhish Public Feed</span> (<code>raw.githubusercontent.com</code>) — a publicly available list of known phishing URLs, fetched every 12 hours and stored locally in your browser for fast matching.
+      </li>
+    </ul>
+    <p>No other external connections are made by this extension.</p>
+  </section>
+
+  <section data-index="05">
+    <h2>Local Storage</h2>
+    <p>The following data is stored in <span class="highlight">chrome.storage.local</span> (on your device only):</p>
+    <ul>
+      <li>Your Gemini API key (Base64-encoded)</li>
+      <li>Your whitelist of trusted domains</li>
+      <li>The last scan verdict (status, reason, rating) for the current tab</li>
+      <li>The cached OpenPhish URL list</li>
+      <li>Your on/off preference for the extension</li>
+    </ul>
+    <p>All of this data stays on your device. You can clear it by removing the extension or via Chrome's extension storage settings.</p>
+  </section>
+
+  <section data-index="06">
+    <h2>What We Do NOT Collect</h2>
+    <ul>
+      <li>Your name, email address, or any account information</li>
+      <li>Your browsing history</li>
+      <li>Passwords or form field values</li>
+      <li>Any analytics, crash reports, or usage data</li>
+      <li>Any data sent to a developer-controlled server</li>
+    </ul>
+    <div class="callout">
+      <span class="safe">✓</span> The developer of Jester AI has <span class="highlight">no server, no database, and no access to any user data</span>.
+    </div>
+  </section>
+
+  <section data-index="07">
+    <h2>Permissions Used</h2>
+    <ul>
+      <li><span class="highlight">activeTab</span> — to read the current page's URL and content for scanning.</li>
+      <li><span class="highlight">storage</span> — to save your settings and whitelist locally.</li>
+      <li><span class="highlight">tabs</span> — to identify which tab triggered a scan and reload tabs when needed.</li>
+      <li><span class="highlight">notifications</span> — to alert you when a high-risk phishing site is detected.</li>
+      <li><span class="highlight">&lt;all_urls&gt;</span> — required to scan any website you visit. No browsing data is collected from this permission.</li>
+    </ul>
+  </section>
+
+  <section data-index="08">
+    <h2>Children's Privacy</h2>
+    <p>Jester AI is not directed at children under the age of 13 and does not knowingly collect any data from them.</p>
+  </section>
+
+  <section data-index="09">
+    <h2>Changes to This Policy</h2>
+    <p>If this policy is updated, the effective date at the top of this page will be changed. Continued use of the extension after changes constitutes acceptance of the revised policy.</p>
+  </section>
+
+  <section data-index="10">
+    <h2>Contact</h2>
+    <p>For any privacy-related questions, contact the developer at:</p>
+    <p><a href="mailto:jesteraisupport@gmail.com">jesteraisupport@gmail.com</a></p>
+  </section>
+
+</main>
+
+<footer>
+  JESTER AI &nbsp;|&nbsp; AI-POWERED PHISHING DETECTION &nbsp;|&nbsp;
+  <a href="mailto:jesteraisupport@gmail.com">jesteraisupport@gmail.com</a>
+</footer>
+
+</body>
+</html>
