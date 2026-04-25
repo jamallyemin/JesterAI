@@ -128,7 +128,7 @@ Pull requests are welcome. For major changes, open an issue first to discuss wha
 
 ---
 
-## 📄 Privacy Policy
+## 🔒 Privacy Policy
 [View Privacy Policy](https://jamallyemin.github.io/JesterAI/privacy-policy.html)
 
 ---
