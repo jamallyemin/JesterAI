@@ -1,5 +1,4 @@
-# 🃏 Jester AI — AI-Powered Phishing Detection
-
+# Jester AI — AI-Powered Phishing Detection
 
 <p align="center">
   <img src="https://img.shields.io/badge/Manifest-V3-0de40d?style=flat-square&labelColor=111" />
@@ -8,13 +7,19 @@
   <img src="https://img.shields.io/badge/License-MIT-0de40d?style=flat-square&labelColor=111" />
 </p>
 
-> A neural defense Chrome extension that uses Google Gemini to scan web pages for phishing patterns in real time — blocking malicious sites before you even interact with them.
+> A Chrome extension that uses Google Gemini to scan pages for phishing patterns in real time — blocking malicious sites before you interact with them.
 
 ---
 
-## 🔍 How It Works
+## Demo
 
-Jester AI uses a **dual-layer detection architecture**:
+[Watch on YouTube](https://www.youtube.com/watch?v=XP2o6ucFMFQ) | [Install from Chrome Web Store](https://chromewebstore.google.com/detail/jester-ai/bojbcacchglklklhhahjohmpffkdoolp)
+
+---
+
+## How It Works
+
+Jester AI runs two layers of detection on every page you visit:
 
 **Layer 1 — DOM / Static Analysis** (`content.js`)
 - Scans for suspicious URL patterns using regex
@@ -24,58 +29,58 @@ Jester AI uses a **dual-layer detection architecture**:
 
 **Layer 2 — Visual / AI Analysis** (`background.js`)
 - Sends scraped DOM metadata + a base64 screenshot to **Gemini 2.5 Flash**
-- AI identifies brand impostors — sites that *look* like Google/PayPal but hosted on random domains
-- Returns a JSON verdict with `status`, `rating` (1–10), and a plain-English `reason`
+- AI checks for brand impostors — sites that look like Google/PayPal but hosted on random domains
+- Returns a JSON verdict with `status`, `rating` (1–10), and a `reason`
 
 If the threat rating hits **4/10 or higher**, Jester injects a full-screen block page. Users can hold to override and whitelist the domain.
 
 ---
 
-## ✨ Features
+## Features
 
-- 🤖 **Gemini 2.5 Flash** — free AI model via Google AI Studio
-- 🛡️ **OpenPhish integration** — real-time blacklist synced every 12 hours
-- 🌐 **Multilingual block page** — English, Azerbaijani, Russian, Turkish
-- 🔑 **Bring your own API key** — decentralized, no shared quota
-- ⚪ **Quarantine mode** — grays out inputs while scanning
-- ✅ **User whitelist** — trust domains permanently
-- 🔔 **Desktop notifications** for high-risk detections
-- 🕹️ **On/Off toggle** — pause protection anytime
+- Gemini 2.5 Flash — free AI model via Google AI Studio
+- OpenPhish integration — real-time blacklist synced every 12 hours
+- Multilingual block page — English, Azerbaijani, Russian, Turkish
+- Bring your own API key — decentralized, no shared quota
+- Quarantine mode — grays out inputs while scanning
+- User whitelist — trust domains permanently
+- Desktop notifications for high-risk detections
+- On/Off toggle — pause protection anytime
 
 ---
 
-## 🚀 Installation
+## Installation
 
-### Prerequisites
+**Prerequisites**
 - Google Chrome (or any Chromium-based browser)
 - A free [Google AI Studio](https://aistudio.google.com/app/apikey) API key
 
-### Steps
+**Steps**
 
-1. **Clone the repo**
+1. Clone the repo
    ```bash
-   git clone https://github.com/jamallyemin/jester-ai.git
-   cd jester-ai
+   git clone https://github.com/jamallyemin/JesterAI.git
+   cd JesterAI
    ```
 
-2. **Load into Chrome**
-   - Navigate to `chrome://extensions`
+2. Load into Chrome
+   - Go to `chrome://extensions`
    - Enable **Developer mode** (top-right toggle)
-   - Click **Load unpacked** → select the `jester-ai` folder
+   - Click **Load unpacked** and select the `JesterAI` folder
 
-3. **Add your API key**
+3. Add your API key
    - Click the Jester AI icon in your toolbar
    - Click the **⋮** menu in the popup header
-   - Paste your Gemini API key → **SAVE CONFIG**
+   - Paste your Gemini API key and hit **SAVE CONFIG**
 
-That's it. Jester will start scanning immediately.
+That's it. Jester starts scanning immediately.
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
-jester-ai/
+JesterAI/
 ├── manifest.json       # Chrome Extension config (MV3)
 ├── background.js       # Service worker — Gemini visual analysis, OpenPhish sync
 ├── content.js          # DOM scanner — regex, quarantine, block page injection
@@ -84,9 +89,12 @@ jester-ai/
 ├── options.js          # Standalone options page
 ├── prompts.json        # Structured AI prompt templates
 ├── icon128.png         # Extension icon
+├── privacy-policy.html # Hosted privacy policy
+```
+
 ---
 
-## ⚙️ Configuration
+## Configuration
 
 | Setting | Description |
 |--------|-------------|
@@ -96,7 +104,7 @@ jester-ai/
 
 ---
 
-## 🧠 AI Prompt Logic
+## AI Prompt Logic
 
 Jester sends structured prompts to Gemini that include:
 
@@ -106,14 +114,14 @@ Jester sends structured prompts to Gemini that include:
 - Whether a known brand name appears on a mismatched domain
 - Scan mode (`light` for low-risk pages, `deep` for suspicious ones)
 
-Gemini responds **only in JSON**:
+Gemini responds only in JSON:
 ```json
 { "status": "DANGER", "rating": 8, "reason": "Page mimics PayPal login but is hosted on a random domain." }
 ```
 
 ---
 
-## 🛠️ Built With
+## Built With
 
 - [Chrome Extensions Manifest V3](https://developer.chrome.com/docs/extensions/mv3/)
 - [Google Gemini 2.5 Flash](https://ai.google.dev/)
@@ -122,18 +130,19 @@ Gemini responds **only in JSON**:
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Pull requests are welcome. For major changes, open an issue first to discuss what you'd like to change.
 
 ---
 
-## 🔒 Privacy Policy
+## Privacy Policy
+
 [View Privacy Policy](https://jamallyemin.github.io/JesterAI/privacy-policy.html)
 
 ---
 
-## 📄 License
+## License
 
 MIT © [jamallyemin](https://github.com/jamallyemin)
 
