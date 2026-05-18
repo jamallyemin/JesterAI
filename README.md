@@ -41,6 +41,7 @@ If the rating hits 4/10 or above, Jester injects a full-screen block page. You c
 - Quarantine mode — disables form inputs while scanning
 - User whitelist — permanently trust a domain with a 2-second hold
 - Desktop notifications for high-risk detections
+- Wayback Machine domain age check — flags newly registered domains that have little to no history
 - Bring your own API key — no shared quota, no central server
 - On/Off toggle to pause protection without uninstalling
 
@@ -105,6 +106,7 @@ The model is instructed to respond only in JSON:
 - [Chrome Extensions Manifest V3](https://developer.chrome.com/docs/extensions/mv3/)
 - [Google Gemini 2.5 Flash](https://ai.google.dev/)
 - [OpenPhish](https://openphish.com/)
+- [Wayback Machine CDX API](https://archive.org/help/wayback_api.php)
 - Vanilla JS — no build tools, no dependencies
 
 ## Contributing
