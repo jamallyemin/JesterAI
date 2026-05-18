@@ -1,19 +1,20 @@
 {
     "manifest_version": 3,
     "name": "Jester AI",
-    "version": "1.1",
+    "version": "1.2",
     "description": "AI-powered Phishing Detection",
     "icons": {
         "128": "icon128.png"
     },
     "permissions": [
         "notifications",
-        "activeTab", 
+        "activeTab",
         "storage",
         "tabs"
     ],
     "host_permissions": [
         "https://generativelanguage.googleapis.com/*",
+        "https://web.archive.org/*",
         "<all_urls>"
     ],
     "background": {
@@ -27,5 +28,11 @@
     ],
     "action": {
         "default_popup": "popup.html"
-    }
+    },
+    "web_accessible_resources": [
+        {
+            "resources": ["welcome.html", "icon128.png"],
+            "matches": ["<all_urls>"]
+        }
+    ]
 }
