@@ -3,100 +3,325 @@
 <head>
     <meta charset="UTF-8">
     <style>
-        body { width: 250px; padding: 15px; background-color: #000; color: #fff; font-family: 'Courier New', monospace; margin: 0; border: 1px solid #333; }
-        .header { font-size: 14px; font-weight: bold; text-align: center; border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 15px; letter-spacing: 2px; color: #0de40d }
-        .info { font-size: 12px; margin-bottom: 8px; }
-        #status { font-weight: bold; text-transform: uppercase; }
-        #reason { font-size: 11px; color: #ccc; margin-top: 10px; font-style: italic; line-height: 1.4; border-left: 2px solid #333; padding-left: 8px; }
-        .footer { margin-top: 15px; font-size: 10px; color: #444; text-align: center; }
-        .switch-container { margin-top: 20px; display: flex; justify-content: center; align-items: center; padding: 10px 0; border-top: 1px solid #333; }
-        .switch { position: relative; display: inline-block; width: 60px; height: 34px; }
-        .switch input{ opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #333; transition: .4s; border-radius: 34px; }
-        .slider::before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
-        .info-tooltip .tooltiptext { visibility: hidden; width: 150px; background-color: #222; color: #fff; text-align: center; border: 1px solid #333; border-radius: 6px; padding: 8px; position: absolute; z-index: 10; bottom: 150%; left: 0; opacity: 0; transition: opacity 0.3s; font-size: 10px; line-height: 1.3; pointer-events: none; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-        input:checked + .slider { background-color: #0de40d; }
-        input:focus + .slider { box-shadow: 0 0 5px #0de40d; }
-        input:checked + .slider:before { transform: translateX(18px); }
-        .info-tooltip:hover .tooltiptext { visibility: visible; opacity: 1; }
-        .info-tooltip:hover { color: #0de40d; }
-        #whitelist-items::-webkit-scrollbar { width: 4px;}
-        #whitelist-items::-webkit-scrollbar-track {background: #000;}
-        #whitelist-items::-webkit-scrollbar-thumb {background-color: #333; border-radius: 10px;}
-        #whitelist-items::-webkit-scrollbar-thumb:hover {background: #0de40d;}
-        #refreshBtn:hover { color: #0de40d; }
-        .footer { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 20px 0; width: 100%; border-top: solid #222; }
-        #footer-text { font-family: 'Courier New', Courier, monospace; font-size: 11px; color: #555; letter-spacing: 1px; text-transform: uppercase; }   
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #000;
+            --bg2: #060606;
+            --bg3: #0a0a0a;
+            --border: #1a1a1a;
+            --border2: #111;
+            --text: #fff;
+            --muted: #555;
+            --dimmed: #333;
+            --green: #0de40d;
+            --red: #ff3e3e;
+        }
+
+        body.light {
+            --bg: #f0f0f0;
+            --bg2: #e8e8e8;
+            --bg3: #dedede;
+            --border: #ccc;
+            --border2: #ddd;
+            --text: #111;
+            --muted: #777;
+            --dimmed: #aaa;
+        }
+
+        body {
+            width: 260px;
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Share Tech Mono', 'Courier New', monospace;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg2);
+        }
+        .header-title { font-size: 13px; font-weight: bold; letter-spacing: 3px; color: var(--green); text-transform: uppercase; }
+        .header-title span { color: var(--muted); font-size: 10px; letter-spacing: 1px; }
+        #options-trigger { cursor: pointer; font-size: 18px; color: var(--dimmed); line-height: 1; transition: color 0.2s; padding: 2px 4px; }
+        #options-trigger:hover { color: var(--green); }
+
+        #settings-panel {
+            display: none;
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg2);
+            animation: slideDown 0.15s ease;
+        }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+        .settings-label { font-size: 9px; color: var(--green); letter-spacing: 2px; margin-bottom: 10px; text-transform: uppercase; }
+        .api-hint { font-size: 10px; color: var(--muted); margin-bottom: 8px; line-height: 1.5; }
+        .api-hint a { color: var(--green); text-decoration: none; border-bottom: 1px solid rgba(13,228,13,0.3); }
+        .api-hint a:hover { border-bottom-color: var(--green); }
+        #api-key-input { width: 100%; background: var(--bg3); border: 1px solid var(--border); color: var(--text); padding: 7px 8px; font-size: 10px; font-family: inherit; margin-bottom: 8px; outline: none; transition: border-color 0.2s; border-radius: 2px; }
+        #api-key-input:focus { border-color: var(--green); }
+        #api-key-input::placeholder { color: var(--dimmed); }
+        #save-key-btn { background: transparent; color: var(--green); border: 1px solid var(--green); padding: 6px; cursor: pointer; font-size: 9px; width: 100%; font-family: inherit; font-weight: bold; letter-spacing: 1px; transition: all 0.2s; border-radius: 2px; }
+        #save-key-btn:hover { background: var(--green); color: #000; }
+        .whitelist-section { margin-top: 12px; border-top: 1px solid var(--border); padding-top: 10px; }
+        .whitelist-label { font-size: 9px; color: var(--dimmed); letter-spacing: 1px; margin-bottom: 6px; text-transform: uppercase; }
+        #whitelist-items { max-height: 90px; overflow-y: auto; }
+        #whitelist-items::-webkit-scrollbar { width: 3px; }
+        #whitelist-items::-webkit-scrollbar-track { background: transparent; }
+        #whitelist-items::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+        #whitelist-items::-webkit-scrollbar-thumb:hover { background: var(--green); }
+        .wl-item { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-bottom: 1px solid var(--border2); }
+        .wl-domain { font-size: 10px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 160px; }
+        .wl-remove { color: var(--red); cursor: pointer; font-size: 9px; opacity: 0.6; transition: opacity 0.2s; }
+        .wl-remove:hover { opacity: 1; }
+
+        .page { display: none; opacity: 0; transform: translateY(10px); transition: opacity 0.3s ease, transform 0.3s ease; }
+        .page.active { display: block; opacity: 1; transform: translateY(0); }
+
+        .main-body { padding: 14px; }
+        .status-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+        .status-badge { font-size: 9px; letter-spacing: 1px; color: var(--dimmed); text-transform: uppercase; flex-shrink: 0; }
+        #status { font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; color: var(--green); }
+
+        .pulse-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; flex-shrink: 0; animation: pulse 2s infinite; }
+        @keyframes pulse {
+            0%   { box-shadow: 0 0 0 0px rgba(13,228,13,0.4); transform: scale(1); }
+            70%  { box-shadow: 0 0 0 6px rgba(13,228,13,0);  transform: scale(1.1); }
+            100% { box-shadow: 0 0 0 0px rgba(13,228,13,0);  transform: scale(1); }
+        }
+        .pulse-dot.danger { background: var(--red); animation: pulse-red 1.5s infinite; }
+        @keyframes pulse-red {
+            0%   { box-shadow: 0 0 0 0px rgba(255,62,62,0.4); }
+            70%  { box-shadow: 0 0 0 8px rgba(255,62,62,0); }
+            100% { box-shadow: 0 0 0 0px rgba(255,62,62,0); }
+        }
+        .pulse-dot.standby { background: var(--dimmed); animation: none; }
+
+        @keyframes scan-line {
+            0%   { border-left-color: var(--border); }
+            50%  { border-left-color: var(--green); }
+            100% { border-left-color: var(--border); }
+        }
+        #reason {
+            font-size: 10px; color: var(--muted); line-height: 1.5;
+            border-left: 2px solid var(--border); padding-left: 8px;
+            margin-bottom: 6px; min-height: 18px; font-style: italic;
+            animation: scan-line 2s infinite ease-in-out;
+        }
+
+        #wayback-verdict {
+            font-size: 9px; color: var(--dimmed); line-height: 1.4;
+            border-left: 2px solid var(--border2); padding-left: 8px;
+            margin-bottom: 12px; min-height: 0;
+            display: none;
+        }
+        #wayback-verdict.visible { display: block; }
+        #wayback-verdict.warn { color: #e0a000; border-left-color: #e0a000; }
+        #wayback-verdict.ok   { color: var(--muted); }
+
+        #whitelist-btn { width: 100%; background: transparent; color: var(--green); border: 1px solid var(--border); padding: 7px; cursor: pointer; font-family: inherit; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; transition: all 0.2s cubic-bezier(0.4,0,0.2,1); border-radius: 2px; }
+        #whitelist-btn:hover { border-color: var(--green); background: rgba(13,228,13,0.05); }
+        #whitelist-btn:active { transform: scale(0.97); }
+        #whitelist-btn.trusted { color: var(--dimmed); border-color: var(--border); cursor: default; }
+
+        .controls-row { display: flex; align-items: center; padding: 10px 14px; border-top: 1px solid var(--border); background: var(--bg2); gap: 10px; }
+        .switch { position: relative; display: inline-block; width: 36px; height: 20px; flex-shrink: 0; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; inset: 0; background: var(--border); transition: 0.3s; border-radius: 20px; }
+        .slider::before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background: var(--dimmed); transition: 0.3s; border-radius: 50%; }
+        input:checked + .slider { background: rgba(13,228,13,0.2); }
+        input:checked + .slider::before { transform: translateX(16px); background: var(--green); }
+
+        .tooltip-wrap { position: relative; cursor: help; color: var(--dimmed); font-size: 12px; transition: color 0.2s; }
+        .tooltip-wrap:hover { color: var(--green); }
+        .tooltip-wrap .tip { visibility: hidden; width: 160px; background: var(--bg3); color: var(--muted); text-align: center; border: 1px solid var(--border); border-radius: 4px; padding: 8px; position: absolute; z-index: 10; bottom: 140%; left: 0; opacity: 0; transition: opacity 0.2s; font-size: 9px; line-height: 1.5; pointer-events: none; }
+        .tooltip-wrap:hover .tip { visibility: visible; opacity: 1; }
+
+        #refreshBtn { margin-left: auto; font-size: 16px; background: none; color: var(--dimmed); border: none; cursor: pointer; transition: color 0.2s, transform 0.3s; padding: 2px 4px; line-height: 1; }
+        #refreshBtn:hover { color: var(--green); transform: rotate(180deg); }
+
+        .status-danger  { color: var(--red)    !important; }
+        .status-safe    { color: var(--green)   !important; }
+        .status-standby { color: var(--dimmed)  !important; }
+
+        #page-settings { padding: 14px; }
+        .setting-group { margin-bottom: 16px; }
+        .setting-group-title { font-size: 9px; color: var(--dimmed); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+        .setting-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; }
+        .setting-name { font-size: 10px; color: var(--text); letter-spacing: 0.5px; }
+        .setting-desc { font-size: 9px; color: var(--muted); margin-top: 1px; }
+
+        .s-switch { position: relative; display: inline-block; width: 32px; height: 18px; flex-shrink: 0; }
+        .s-switch input { opacity: 0; width: 0; height: 0; }
+        .s-slider { position: absolute; cursor: pointer; inset: 0; background: var(--border); transition: 0.3s; border-radius: 18px; }
+        .s-slider::before { position: absolute; content: ""; height: 12px; width: 12px; left: 3px; bottom: 3px; background: var(--dimmed); transition: 0.3s; border-radius: 50%; }
+        .s-switch input:checked + .s-slider { background: rgba(13,228,13,0.2); }
+        .s-switch input:checked + .s-slider::before { transform: translateX(14px); background: var(--green); }
+
+        .segment { display: flex; gap: 2px; }
+        .seg-btn { flex: 1; background: var(--bg3); border: 1px solid var(--border); color: var(--muted); padding: 4px 0; font-family: inherit; font-size: 8px; letter-spacing: 1px; cursor: pointer; transition: all 0.15s; text-transform: uppercase; }
+        .seg-btn:first-child { border-radius: 2px 0 0 2px; }
+        .seg-btn:last-child  { border-radius: 0 2px 2px 0; }
+        .seg-btn.active { background: rgba(13,228,13,0.1); border-color: var(--green); color: var(--green); }
+        .seg-btn:hover:not(.active) { border-color: var(--muted); color: var(--text); }
+
+        .lang-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-top: 6px; }
+        .lang-btn { background: var(--bg3); border: 1px solid var(--border); color: var(--muted); padding: 5px; font-family: inherit; font-size: 9px; letter-spacing: 1px; cursor: pointer; transition: all 0.15s; text-align: center; border-radius: 2px; text-transform: uppercase; }
+        .lang-btn.active { background: rgba(13,228,13,0.1); border-color: var(--green); color: var(--green); }
+        .lang-btn:hover:not(.active) { border-color: var(--muted); color: var(--text); }
+
+        .bottom-nav { display: flex; border-top: 1px solid var(--border); background: var(--bg2); height: 40px; }
+        .nav-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; background: none; border: none; cursor: pointer; color: var(--dimmed); font-family: inherit; font-size: 8px; letter-spacing: 1px; transition: color 0.2s; padding: 0; border-right: 1px solid var(--border); text-transform: uppercase; }
+        .nav-btn:last-child { border-right: none; }
+        .nav-btn .nav-icon { font-size: 13px; line-height: 1; }
+        .nav-btn.active { color: var(--green); }
+        .nav-btn:hover:not(.active) { color: var(--text); }
+
+        .footer { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 14px; border-top: 1px solid var(--border2); }
+        #footer-text { font-size: 9px; color: var(--border); letter-spacing: 2px; text-transform: uppercase; }
+        .footer a { font-size: 10px; color: var(--dimmed); text-decoration: none; transition: color 0.2s; }
+        .footer a:hover { color: var(--green); }
+
+        .header-title:hover { text-shadow: 1px 0 var(--red), -1px 0 var(--green); animation: glitch 0.3s infinite; }
+        @keyframes glitch {
+            0%   { transform: translate(0); }
+            20%  { transform: translate(-1px, 1px); }
+            40%  { transform: translate(-1px, -1px); }
+            60%  { transform: translate(1px, 1px); }
+            80%  { transform: translate(1px, -1px); }
+            100% { transform: translate(0); }
+        }
     </style>
 </head>
 
 <body>
-    <div class="header" style="display: flex; justify-content: space-between; align-items: center; padding: 0 5px 10px 5px;">
-        <span>Jester AI</span>
-        <div id="options-trigger" style="cursor: pointer; font-size: 18px; color: #888; line-height: 1;">⋮</div>
+    <div class="header">
+        <div class="header-title">Jester <span>// AI</span></div>
+        <div id="options-trigger">⋮</div>
     </div>
 
-    <div id="settings-panel" style="display:none; padding: 10px; border: 1px solid #333; margin-bottom: 15px; background-color: #0a0a0a; border-radius: 4px;">
-        <div id="api-label" style="font-size: 11px; color:#0de40d; margin-bottom: 4px; letter-spacing: 1px;">API SETTINGS:</div>
-
-        <div style="font-size: 11px; color: #888; margin-bottom: 8px;">
-            Don't have a key? <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: #0de40d; text-decoration: none; border-bottom: 1px solid #0de40d;">Get it for free</a>
+    <div id="settings-panel">
+        <div class="settings-label" data-i18n="apiSettings">API Settings</div>
+        <div class="api-hint" data-i18n-html="apiHint">No key? <a href="https://aistudio.google.com/app/apikey" target="_blank">Get one free →</a></div>
+        <input type="password" id="api-key-input" data-i18n-placeholder="apiKeyPlaceholder" placeholder="Enter Gemini API Key...">
+        <button id="save-key-btn" data-i18n="saveConfig">SAVE CONFIG</button>
+        <div class="whitelist-section">
+            <div class="whitelist-label" data-i18n="whitelistedDomains">Whitelisted Domains</div>
+            <div id="whitelist-items"></div>
         </div>
+    </div>
 
-        <input type="password" id="api-key-input" placeholder="Enter Gemini API Key..."
-            style="width: 100%;background: #000; border: 1px solid #333; color: #fff; padding: 6px; font-size: 10px; font-family: inherit; box-sizing: border-box;margin-bottom: 8px; outline: none;">
-        
-        <button id="save-key-btn" style="background: #111; color: #0de40d; border: 1px solid #0de40d; padding: 5px; cursor: pointer; font-size: 9px; width: 100%; font-family: inherit; font-weight: bold; transition: 0.3s;">SAVE CONFIG</button>
-                <div id="whitelist-manager" style="margin-top: 15px; border-top: 1px solid #333; padding-top: 10px;">
-            <p style="font-size: 11px; color: #888; margin-bottom: 5px;">WHITELISTED DOMAINS:</p>
-            <div id="whitelist-items" style="max-height: 100px; overflow-y: auto; font-size: 12px; color: #eee;">
+    <div id="page-main" class="page active">
+        <div class="main-body">
+            <div class="status-row">
+                <div class="status-badge" data-i18n="statusLabel">Status</div>
+                <div class="pulse-dot" id="pulse-dot"></div>
+                <span id="status">ANALYZING...</span>
+            </div>
+            <div id="reason">Waiting for Gemini analysis...</div>
+            <div id="wayback-verdict"></div>
+            <button id="whitelist-btn" data-i18n="trustSite">+ Trust this site</button>
+        </div>
+        <div class="controls-row">
+            <label class="switch">
+                <input type="checkbox" id="powerSwitch" checked>
+                <span class="slider"></span>
+            </label>
+            <div class="tooltip-wrap">
+                ⓘ
+                <span class="tip" data-i18n="powerTooltip">ON — Jester is scanning every page. OFF — Standby, no scans run.</span>
+            </div>
+            <button id="refreshBtn" data-i18n-title="reloadPage" title="Reload current page">⟳</button>
+        </div>
+    </div>
+
+    <div id="page-settings" class="page">
+
+        <div class="setting-group">
+            <div class="setting-group-title" data-i18n="groupAppearance">Appearance</div>
+            <div class="setting-row">
+                <div>
+                    <div class="setting-name" data-i18n="lightMode">Light Mode</div>
+                    <div class="setting-desc" data-i18n="lightModeDesc">Switch to light theme</div>
+                </div>
+                <label class="s-switch">
+                    <input type="checkbox" id="setting-lightmode">
+                    <span class="s-slider"></span>
+                </label>
+            </div>
+            <div class="setting-row">
+                <div>
+                    <div class="setting-name" data-i18n="showRating">Show Threat Rating</div>
+                    <div class="setting-desc" data-i18n="showRatingDesc">Display score (1–10) in popup</div>
+                </div>
+                <label class="s-switch">
+                    <input type="checkbox" id="setting-showrating" checked>
+                    <span class="s-slider"></span>
+                </label>
             </div>
         </div>
-        </div>
-    </div>
-    <div class="info">
-        <span id="status-label">STATUS:</span> <span id="status" style="color: #0de40d;">ANALYZING...</span>
-    </div>
-    <div id="reason">
-        Waiting for Gemini analysis...
-    </div>
-    
-    <button id="whitelist-btn" style="margin-top: 10px; background: #0de40d; color:#000; border:none; padding:5px; cursor:pointer; font-family: inherit; font-size: 10px;">TRUST THIS SITE?</button>
 
-    <div class="switch-container" style="margin-top: 15px; display: flex; align-items: center; justify-content: flex-start; padding-top: 10px; border-top: 1px solid #333;">
-        <label class="switch" style="width: 40px; height: 22px;">
-            <input type="checkbox" id="powerSwitch" checked>
-            <span class="slider" style="border-radius: 22px;"></span>
-        </label>
-
-        <div class="info-tooltip" style="margin-left: 12px; cursor: help; color: #888; font-size: 14px; position: relative;">
-            ⓘ
-            <span id="tooltip-text" class="tooltiptext">When the switch is ON, Jester AI will begin scanning. When OFF: Standby</span>
+        <div class="setting-group">
+            <div class="setting-group-title" data-i18n="groupDetection">Detection</div>
+            <div class="setting-name" style="margin-bottom:6px;" data-i18n="scanSensitivity">Scan Sensitivity</div>
+            <div class="segment">
+                <button class="seg-btn" data-val="low"    data-i18n="sensLow">Low</button>
+                <button class="seg-btn active" data-val="medium" data-i18n="sensMedium">Medium</button>
+                <button class="seg-btn" data-val="high"   data-i18n="sensHigh">High</button>
+            </div>
         </div>
-        <button id="refreshBtn" title="Reload current page" style="
-            margin-left: auto;
-            font-size: 14px;
-            background: none;
-            color: #888;
-            border: none;
-            border-radius: 4px;
-            padding: 2px 6px;
-            cursor: pointer;
-            transition: 0.2s;
-        ">⟳</button>
+
+        <div class="setting-group">
+            <div class="setting-group-title" data-i18n="groupNotifications">Notifications</div>
+            <div class="setting-row">
+                <div>
+                    <div class="setting-name" data-i18n="desktopAlerts">Desktop Alerts</div>
+                    <div class="setting-desc" data-i18n="desktopAlertsDesc">Notify on high-risk sites</div>
+                </div>
+                <label class="s-switch">
+                    <input type="checkbox" id="setting-notifications" checked>
+                    <span class="s-slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="setting-group">
+            <div class="setting-group-title" data-i18n="groupLanguage">Language</div>
+            <div class="setting-desc" style="margin-bottom:6px;" data-i18n="langDesc">Interface &amp; block page language</div>
+            <div class="lang-grid">
+                <button class="lang-btn active" data-lang="en">EN · English</button>
+                <button class="lang-btn" data-lang="az">AZ · Azərbaycan</button>
+                <button class="lang-btn" data-lang="ru">RU · Русский</button>
+                <button class="lang-btn" data-lang="tr">TR · Türkçe</button>
+            </div>
+        </div>
+
     </div>
+
+    <div class="bottom-nav">
+        <button class="nav-btn active" data-page="main">
+            <span class="nav-icon">⬡</span>
+            <span data-i18n="navHome">Home</span>
+        </button>
+        <button class="nav-btn" data-page="settings">
+            <span class="nav-icon">⚙</span>
+            <span data-i18n="navSettings">Settings</span>
+        </button>
     </div>
-    
 
     <div class="footer">
-        <span id="footer-text">V.1.0 | SECURED BY Jester</span>    
-        <div style="font-size: 11px;">
-            <a href="mailto:jesteraisupport@gmail.com" 
-               style="color: #0de40d; text-decoration: none; border-bottom: 1px solid #0de40d;">
-               jesteriaisupport@gmail.com
-            </a>
-        </div>
+        <span id="footer-text">V.1.2 · Secured by Jester</span>
+        <a href="mailto:jesteriaisupport@gmail.com">jesteriaisupport@gmail.com</a>
     </div>
+
     <script src="popup.js"></script>
 </body>
 </html>
